@@ -1,15 +1,15 @@
 package hu.mikrum.base;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 @SpringBootTest
-class BaseApplicationTests {
+public class BaseApplicationTests {
 
-	@Test
-	void contextLoads() {
-		System.out.println("works");
-		Assert.assertEquals(1,1);
-	}
+    @Test
+    public void testMyService() {
+        Assert.assertEquals("expectedResult", "expectedResult");
+    }
 
 }
