@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Customer Table -->
+    <changeSet id="create-customer-table" author="majer.tamas">
+        <createTable tableName="customer">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Address Table -->
+    <changeSet id="create-address-table" author="majer.tamas">
+        <createTable tableName="address">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="street" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="postal_code" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_address_customer" references="customer(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Income Table -->
+    <changeSet id="create-income-table" author="majer.tamas">
+        <createTable tableName="income">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="source" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_income_customer" references="customer(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Loan Table -->
+    <changeSet id="create-loan-table" author="majer.tamas">
+        <createTable tableName="loan">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="amount" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_loan_customer" references="customer(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="alter-loan-table-customer-id-nullable" author="majer.tamas">
+        <dropNotNullConstraint columnName="customer_id" tableName="loan"/>
+    </changeSet>
+
+</databaseChangeLog>
