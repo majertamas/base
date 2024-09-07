@@ -4,11 +4,7 @@ import hu.mikrum.base.model.entity.Address;
 import hu.mikrum.base.model.entity.Customer;
 import hu.mikrum.base.model.entity.Income;
 import hu.mikrum.base.model.entity.Loan;
-import hu.mikrum.base.repository.AddressRepository;
-import hu.mikrum.base.repository.CustomerRepository;
-import hu.mikrum.base.repository.IncomeRepository;
-import hu.mikrum.base.repository.LoanRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -18,24 +14,13 @@ import java.util.Set;
 
 public class TestOfTest extends BaseApplicationTests {
 
-    @Autowired
-    private LoanRepository loanRepository;
-
-    @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
-
-    @Autowired
-    private IncomeRepository incomeRepository;
 
     @Test
     public void testLoanCreationAndCustomerAssociations() {
 
         // 1. Hitel mentése
         Loan loan = new Loan();
-        loan.setAmount(10000.0);
+        loan.setAmount(10000.1);
         loan = loanRepository.save(loan);
 
         // 2. Ügyfél hozzáadása
@@ -98,6 +83,14 @@ public class TestOfTest extends BaseApplicationTests {
         Assert.assertTrue(customerRepository.findById(customer.getId()).isPresent());
         Assert.assertEquals(savedAddresses.size(), 2);
         Assert.assertEquals(savedIncomes.size(), 2);
+
+    }
+
+    @Transactional
+    protected Loan saveLoan() {
+        Loan loan = new Loan();
+        loan.setAmount(10000.1);
+        return loanRepository.save(loan);
     }
 
 

@@ -20,7 +20,7 @@ public class Loan {
     @Column(nullable = false)
     private Double amount;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 }
